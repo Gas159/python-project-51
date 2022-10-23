@@ -1,0 +1,26 @@
+# created by virtualenv automatically
+*.egg-info
+__pycache__
+dist/
+*.pyc
+.venv/
+.coverage
+coverage.xml
+.pytest_cache/
+.vim
+.idea
+test_f.py
+.coverage
+coverage.xml
+my_test_file.py
+sw_templates.yaml
+tests/my_test.py
+bar.py
+foo.py
+bazz.*
+test-coverage-tool
+github-actions-demo.yml
+gendiff/gendiff.py
+test_foo.py
+my_test.py
+my
