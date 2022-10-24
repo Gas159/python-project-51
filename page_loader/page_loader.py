@@ -1,5 +1,6 @@
-import os # https://browser-info.ru/
+import os  # https://browser-info.ru/
 import requests
+
 
 def download(url, cli_path):
     if not os.path.exists(cli_path):
@@ -32,4 +33,3 @@ def set_name(path_name):
 
 def set_path(path):
     return os.path.abspath(path)
-
