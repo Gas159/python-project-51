@@ -14,7 +14,7 @@ test_f.py
 coverage.xml
 my_test_file.py
 sw_templates.yaml
-tests/my_test.py
+tests/my_tes.py
 bar.py
 foo.py
 bazz.*
@@ -25,3 +25,5 @@ test_foo.py
 my_test.py
 my
 my_test.py
+.picasa.ini
+my_module.py
