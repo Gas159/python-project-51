@@ -1,3 +1,5 @@
+import os.path
+
 from page_loader import download
 import tempfile
 
@@ -7,5 +9,7 @@ def test_download():
     with tempfile.TemporaryDirectory() as tmpdirname:
         print('created temporary directory', tmpdirname)
 
-test_download()
+def generate_fixtures_path(name):
+    dir_name = os.path.dirname(os.path.abspath(__file__))
+    return os.path.join(dir_name, 'fixtures', name)
 
