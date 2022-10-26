@@ -27,3 +27,8 @@ my
 my_test.py
 .picasa.ini
 my_module.py
+/tests/parse_zp.py
+/tests/my_mod1.py
+/tests/fixtures/browser-info.html
+/tests/fixtures/opop.html
+/browser-info.html

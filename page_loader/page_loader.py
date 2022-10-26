@@ -1,5 +1,13 @@
-import os  # https://browser-info.ru/
+import os
+from urllib.parse import urlparse
+from bs4 import BeautifulSoup
+
 import requests
+
+link = 'https://browser-info.ru/'
+
+
+# link = os.getcwd()
 
 
 def download(url, cli_path):
@@ -7,29 +15,34 @@ def download(url, cli_path):
         raise IsADirectoryError('Directory not found')
 
     response = requests.get(url)
-    file_name = set_name(url)
-    file_dir = set_path(cli_path)
-    file_path = os.path.join(file_dir, file_name)
+    file_name = get_name(url)
+    # file_dir = get_path(cli_path)
+    page_path = os.path.join(cli_path, file_name)
 
-    with open(file_path, 'w') as file:
+    with open(page_path, 'w') as file:
         file.write(response.text)
-        print('it\'s full path: ', os.path.abspath(file_path))
-        return os.path.abspath(file_path)
+        print('it\'s full path: ', page_path)
+
+    return page_path
 
 
-def set_name(path_name):
-    name = path_name.lstrip('https:').strip('/')
+def get_name(path):
+    parse_result = urlparse(os.path.splitext(path.strip('/'))[0])
+    name = parse_result.netloc + parse_result.path
+    print('parse name: ', name)
     res = ''
     for i in name:
         if i.isdigit() or i.isalpha():
             res += i
-        elif i == '.':
-            break
         else:
             res += '-'
-    res += '.html'
-    return res
+    print('file name: ', res)
+    return res + '.html'
 
 
-def set_path(path):
-    return os.path.abspath(path)
+# def get_path(path):
+#     return os.path.abspath(path)
+
+
+# link1 = 'https://docs.python.org/3/library/fda.txt'
+# download(link, os.getcwd())
