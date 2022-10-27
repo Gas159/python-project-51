@@ -7,7 +7,8 @@ import os
 
 def test_download(requests_mock):
     with tempfile.TemporaryDirectory() as tempdir:
-        fix_path = generate_fixtures_path('browser-info.html')
+        link = 'browser-info.html'
+        fix_path = generate_fixtures_path(link)
         with open(fix_path, 'r') as file:
             data = file.read()
             print('11111111', data)
