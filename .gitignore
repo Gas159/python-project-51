@@ -29,10 +29,9 @@ my_test.py
 my_module.py
 /tests/parse_zp.py
 /tests/my_mod1.py
-/tests/fixtures/browser-info.html
 /tests/fixtures/opop.html
-/browser-info.html
 /tests/parse_leson_1.py
 my_dir_parse
-/tests/browser-info.html
 /tests/browser-info.htmlupgrade.html
+/tests/browser-info.html
+/browser-info.html
