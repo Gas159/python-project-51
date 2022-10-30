@@ -52,7 +52,8 @@ def change_response(url, data, directory):
             if check_local_link(url, link_to_tag):
                 full_path_to_link = urljoin(url, link_to_tag)
                 # print(full_path_to_link, ' !!!!!!!!!!!!!!@!@!!!!!!!')
-                path_name = get_name(url, direct=True, full_link=full_path_to_link,
+                path_name = get_name(url, direct=True,
+                                     full_link=full_path_to_link,
                                      directory=directory)
                 print('path_name_tp_file;   ', path_name)
                 link_bytes = requests.get(full_path_to_link,
