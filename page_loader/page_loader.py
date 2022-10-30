@@ -5,11 +5,36 @@ from bs4 import BeautifulSoup
 from urllib.parse import urlparse, urljoin
 import requests
 import fake_useragent
+import logging
+
+
+def init_logger(path_to_save_log):
+    # logging.basicConfig(level=logging.DEBUG)
+    loger = logging.getLogger(__name__)
+    FORMAT = '%(asctime)s :: %(name)s :%(lineno)s - %(levelname)s - %(message)s'
+    loger.setLevel(logging.DEBUG)
+
+    sh = logging.StreamHandler()
+    sh.setFormatter(logging.Formatter(FORMAT))
+    sh.setLevel(logging.DEBUG)
+
+    fh = logging.FileHandler(filename=f'{path_to_save_log}/my_log.log')
+    fh.setFormatter(logging.Formatter(FORMAT))
+    fh.setLevel(logging.INFO)
+
+    loger.addHandler(sh)
+    loger.addHandler(fh)
+    loger.debug('Logger was initialized')
+
+
+loger = logging.getLogger(__name__)
 
 user = fake_useragent.UserAgent().random
+
 header = {
     'user-agent': user
 }
+
 TAGS_FOR_DOWNLOAD = {
     'img': 'src',
     'link': 'href',
@@ -18,7 +43,10 @@ TAGS_FOR_DOWNLOAD = {
 
 
 def download(url: str, cli_path=os.getcwd()) -> str:
-    print(cli_path)
+    init_logger(cli_path)
+    loger.info('Start func download()')
+    loger.debug(f'path to creat file {cli_path}')
+    # print(cli_path)
     response = get_response(url, cli_path)
     # with open('./original.html', 'w') as f:
     #     f.write(response.text)
@@ -31,18 +59,21 @@ def download(url: str, cli_path=os.getcwd()) -> str:
     change_response(url, soup, cli_path)
     saver(soup, page_path)
     # print('page_path: ', page_path)
-    print(f'Page download sucсessfully in: {page_path}')
+    # print(f'Page download sucсessfully in: {page_path}')
+    loger.debug(f'Page download sucсessfully in: {page_path}')
+    loger.info('Close programm')
     return page_path
 
 
 def change_response(url, data, directory):
+    loger.debug('Change response')
     tags = get_tags_to_change(data)
     # 'link': 'href',
     # 'script': 'src'(data)
     for tag in tags:
         atr, values = tag
 
-        print('fdaaa: --=-=', tag, len(values), end='\n\n')
+        # print('fdaaa: --=-=', tag, len(values), end='\n\n')
         # print(type(tag))
         # print(atr, values)
         for val in values:
@@ -55,7 +86,7 @@ def change_response(url, data, directory):
                 path_name = get_name(url, direct=True,
                                      full_link=full_path_to_link,
                                      directory=directory)
-                print('path_name_tp_file;   ', path_name)
+                # print('path_name_tp_file;   ', path_name)
                 link_bytes = requests.get(full_path_to_link,
                                           timeout=1, headers=header)
                 val[atr] = path_name
@@ -67,6 +98,7 @@ def check_scripts_for_src():
 
 
 def get_tags_to_change(data) -> list:
+    loger.debug('get tags to change in bs.object')
     # print('222222222222')
     # bs = get_bs(data)
     all_tags = []
@@ -74,19 +106,23 @@ def get_tags_to_change(data) -> list:
         # print(TAGS_FOR_DOWNLOAD)
         # print(tag, val)
         all_tags.append((atrr, data.find_all(tag, {atrr: True})))
-    print('222222222222', all_tags, len(all_tags))
+    # print('222222222222', all_tags, len(all_tags))
     return all_tags
 
 
 def loader(path_name, link_bytes):
+    loger.debug(f'save content in {path_name}')
     with open(f'{path_name}', 'wb') as f:
         f.write(link_bytes)
-        print(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
+
+        # print(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
+    loger.debug(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
     time.sleep(randint(1, 2))
 
 
 def get_response(url, path):
     # print(path)
+    loger.debug(f'ger response with requests.get({url})')
     if not os.path.exists(path):
         raise IsADirectoryError('Directory not found bla bla')
     response = requests.get(url, timeout=1, headers=header)
@@ -96,11 +132,13 @@ def get_response(url, path):
 
 def saver(response, path, mode='w'):
     # print(response)
+    loger.debug(f'Save file in {path} with {mode}')
     with open(path, mode, encoding='utf-8') as file:
         file.write(response.prettify())
 
 
 def get_bs(response):
+    loger.debug('Get bs')
     return BeautifulSoup(response, 'html.parser')
 
 
@@ -109,6 +147,7 @@ def create_dir(path):
 
 
 def check_local_link(url_1, url_2):
+    loger.debug('Checking local link for base url')
     home_url_parse = urlparse(url_1).netloc
     download_url_parse = urlparse(url_2).netloc
     # print(home_url_parse, link_to_download)
@@ -120,6 +159,7 @@ def check_local_link(url_1, url_2):
 
 
 def get_urlparse(path: str):
+    loger.debug(f'Get urlparse from {path}')
     urlparse_result = urlparse(path.strip('/'))
     name, ext = os.path.splitext(urlparse_result.path)
     name = urlparse_result.netloc + name
@@ -128,6 +168,7 @@ def get_urlparse(path: str):
 
 
 def get_name(path, direct=None, file=None, full_link=None, directory=None):
+    loger.debug('Get name but im not sure:) ')
     _, tail, ext = get_urlparse(path)
     # print('parse name: ', tail)
     # print()
@@ -143,9 +184,12 @@ def get_name(path, direct=None, file=None, full_link=None, directory=None):
     if direct:
         try:
             # print('555556', res)
-
-            create_dir(os.path.join(directory, res + '_files'))
+            dir_path = os.path.join(directory, res + '_files')
+            create_dir(dir_path)
             # print('5555', res)
+        except FileExistsError:
+            loger.debug(f'Directory {dir_path} exists')
+            # print(f'Directory {dir_path} exists')
         finally:
             name, _, ext = get_name(full_link, full_link=True)
             if not ext:
