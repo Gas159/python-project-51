@@ -35,7 +35,7 @@ def download(url: str, cli_path=os.getcwd()) -> str:
     return page_path
 
 
-def change_response(url, data, dir):
+def change_response(url, data, directory):
     tags = get_tags_to_change(data)
     # 'link': 'href',
     # 'script': 'src'(data)
@@ -52,13 +52,13 @@ def change_response(url, data, dir):
             if check_local_link(url, link_to_tag):
                 full_path_to_link = urljoin(url, link_to_tag)
                 # print(full_path_to_link, ' !!!!!!!!!!!!!!@!@!!!!!!!')
-                path_name = get_name(url, dir=True,
-                                     full_link=full_path_to_link, directory=dir)
+                path_name = get_name(url, direct=True, full_link=full_path_to_link,
+                                     directory=directory)
                 print('path_name_tp_file;   ', path_name)
                 link_bytes = requests.get(full_path_to_link,
                                           timeout=1, headers=header)
                 val[atr] = path_name
-                loader(os.path.join(dir, path_name), link_bytes.content)
+                loader(os.path.join(directory, path_name), link_bytes.content)
 
 
 def check_scripts_for_src():
@@ -126,8 +126,8 @@ def get_urlparse(path: str):
     return urlparse_result, name, ext
 
 
-def get_name(path, dir=None, file=None, full_link=None, directory=None):
-    url_result, tail, ext = get_urlparse(path)
+def get_name(path, direct=None, file=None, full_link=None, directory=None):
+    _, tail, ext = get_urlparse(path)
     # print('parse name: ', tail)
     # print()
     res = ''
@@ -139,20 +139,20 @@ def get_name(path, dir=None, file=None, full_link=None, directory=None):
     # print('file name: ', res)
     if file:
         return res + ".html"
-    if dir:
+    if direct:
         try:
             # print('555556', res)
+
             create_dir(os.path.join(directory, res + '_files'))
             # print('5555', res)
         finally:
             name, _, ext = get_name(full_link, full_link=True)
             if not ext:
                 ext = '.html'
-            # print(f'1111111111111111 ====  {res}_files/{name}{ext}')
+                # print(f'1111111111111111 ====  {res}_files/{name}{ext}')
             return f'{res}_files/{name}{ext}'
     if full_link:
         return res, tail, ext
-
 
 # pathh = os.getcwd()
 # final_name = re.sub(r'\W', '-', name)#
