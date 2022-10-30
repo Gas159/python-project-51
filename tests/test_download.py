@@ -10,7 +10,7 @@ def test_download(requests_mock):
         fix_link = 'gas159-github-io.html'
         expected = generate_fixtures_path(fix_link)
 
-        start_link = 'my_file.html'
+        start_link = 'original.html'
         fix_path = generate_fixtures_path(start_link)
 
         current_data = reader(fix_path)
@@ -24,12 +24,15 @@ def test_download(requests_mock):
 
 
 
+        requests_mock.get(
+            'https://gas159.github.io/assets/css/style.css?v=f2efc96042b257cf424f7da88654fc7667380f0f',
+            text='111')
 
         # current_path_to_download_file = os.path.join(tempdir,
         #                                              'gas159_github_io_files/gas159-github-io-images-poster.jpg')
         # print('```1`1`1``1', current_path_to_download_file)
         # current_download_file = reader(current_path_to_download_file, mode='rb')
-
+        #
         # assert expected_download_file == current_download_file
 
 
@@ -44,6 +47,7 @@ def test_download(requests_mock):
         current_download_file = reader(current_path_to_download_file, mode='rb')
 
         assert result_data == expected_data
+        assert expected_download_file == current_download_file
 
 
 
