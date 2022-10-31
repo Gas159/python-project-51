@@ -1,0 +1,8 @@
+2022-10-31 15:16:25,424 :: page_loader.page_loader :53 - INFO - Start func download()
+2022-10-31 15:16:25,427 :: page_loader.page_loader :69 - INFO - Close programm
+2022-10-31 16:06:49,448 :: page_loader.page_loader :146 - ERROR - Some went wrong.
+
+2022-10-31 16:06:52,534 :: page_loader.page_loader :72 - INFO - Close programm
+2022-10-31 16:07:40,276 :: page_loader.page_loader :146 - ERROR - Some went wrong.
+
+2022-10-31 16:07:44,362 :: page_loader.page_loader :72 - INFO - Close programm

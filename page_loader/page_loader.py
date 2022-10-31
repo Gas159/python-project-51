@@ -10,7 +10,7 @@ import logging
 
 def init_logger(path_to_save_log):
     # logging.basicConfig(level=logging.DEBUG)
-    loger = logging.getLogger(__name__)
+    # loger = logging.getLogger(__name__)
     FORMAT = '%(asctime)s :: %(name)s :%(lineno)s - %(levelname)s - %(message)s'
     loger.setLevel(logging.DEBUG)
 
@@ -42,20 +42,23 @@ TAGS_FOR_DOWNLOAD = {
 }
 
 
+class KnownError(Exception):
+    pass
+
+
 def download(url: str, cli_path=os.getcwd()) -> str:
-    init_logger(cli_path)
-    loger.info('Start func download()')
-    loger.debug(f'path to creat file {cli_path}')
-    # print(cli_path)
+    try:
+        init_logger(cli_path)
+        loger.info('Start func download()')
+    except FileNotFoundError as e:
+        loger.error(f'Directory {cli_path} not found!')
+        raise KnownError from e
+
     response = get_response(url, cli_path)
-    # with open('./original.html', 'w') as f:
-    #     f.write(response.text)
-    #     print('good')
     page_path = os.path.abspath(os.path.join(cli_path, get_name(url,
                                                                 file=True)))
-    # print('page_path: ', page_path)
+
     soup = get_bs(response.text)
-    # print('3333', page_path)
     change_response(url, soup, cli_path)
     saver(soup, page_path)
     # print('page_path: ', page_path)
@@ -125,8 +128,18 @@ def get_response(url, path):
     loger.debug(f'ger response with requests.get({url})')
     if not os.path.exists(path):
         raise IsADirectoryError('Directory not found bla bla')
-    response = requests.get(url, timeout=1, headers=header)
-    response.raise_for_status()
+    try:
+        response = requests.get(url, timeout=1, headers=header)
+        response.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        loger.error(f'An HTTP error occurred. \n{e}')
+        raise KnownError() from e
+    except requests.exceptions.ConnectionError as e:
+        loger.error(f'A Connection error occurred.\n{e}')
+        raise KnownError() from e
+    except requests.exceptions.RequestException as e:
+        loger.error(f'Some went wrong.\n{e}')
+        raise KnownError() from e
     return response
 
 
@@ -140,10 +153,6 @@ def saver(response, path, mode='w'):
 def get_bs(response):
     loger.debug('Get bs')
     return BeautifulSoup(response, 'html.parser')
-
-
-def create_dir(path):
-    os.mkdir(path)
 
 
 def check_local_link(url_1, url_2):
@@ -182,20 +191,13 @@ def get_name(path, direct=None, file=None, full_link=None, directory=None):
     if file:
         return res + ".html"
     if direct:
-        try:
-            # print('555556', res)
-            dir_path = os.path.join(directory, res + '_files')
-            create_dir(dir_path)
-            # print('5555', res)
-        except FileExistsError:
-            loger.debug(f'Directory {dir_path} exists')
-            # print(f'Directory {dir_path} exists')
-        finally:
-            name, _, ext = get_name(full_link, full_link=True)
-            if not ext:
-                ext = '.html'
-                # print(f'1111111111111111 ====  {res}_files/{name}{ext}')
-            return f'{res}_files/{name}{ext}'
+        dir_path = os.path.join(directory, res + '_files')
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
+        name, _, ext = get_name(full_link, full_link=True)
+        if not ext:
+            ext = '.html'
+        return f'{res}_files/{name}{ext}'
     if full_link:
         return res, tail, ext
 
