@@ -14,6 +14,8 @@ def main():
         sys.exit(1)
     except AllErrors:
         sys.exit(2)
+    except KeyboardInterrupt:
+        sys.exit(1)
 
 
 if __name__ == '__main__':

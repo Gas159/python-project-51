@@ -72,7 +72,6 @@ def loader(path_name, link_bytes, bar):
         f.write(link_bytes)
         bar.next()
     bar.finish()
-
     loger.debug(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
     time.sleep(randint(1, 2))
 

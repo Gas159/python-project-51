@@ -6,3 +6,15 @@
 
 <hr> <hr/>
 <h1> Description </h1>
+<p> This programm download web pages with all localfiles</p>
+
+## Installation
+```
+$ pip install --user git+https://github.com/Gas159/python-project-51.git
+```
+
+## Usage
+Option -o or --output give u changes directory to download (default: current directory)
+Running:
+```$ page_loader  'http://some.adress.com/' 
+```
