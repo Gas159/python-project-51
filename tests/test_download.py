@@ -3,17 +3,10 @@ from page_loader import download
 import tempfile
 import pytest
 import os
-from page_loader.page_loader import KnownError
+from page_loader.exceptions import KnownError,AllErrors
+
 
 URL = 'https://gas159.github.io/'
-
-
-# def test_recursion_depth():
-#     with pytest.raises(RuntimeError) as excinfo:
-#         def f():
-#             f()
-#         f()
-#     assert "maximum recursion" in str(excinfo.value)
 
 
 def test_dir_not_exist(requests_mock):
@@ -23,18 +16,13 @@ def test_dir_not_exist(requests_mock):
 
 
 def test_connection(requests_mock):
-    with pytest.raises(KnownError):
+    with pytest.raises(AllErrors):
         requests_mock.get(URL, exc=requests.RequestException)
         with tempfile.TemporaryDirectory() as temp:
             download(URL, temp)
 
-
-# def test_
-
-
 def test_download(requests_mock):
     with tempfile.TemporaryDirectory() as tempdir:
-        # tempdir = creat_tempdir()
 
         fix_link = 'gas159-github-io.html'
         expected = generate_fixtures_path(fix_link)
@@ -73,7 +61,3 @@ def generate_fixtures_path(name):
 def reader(path, mode='r'):
     with open(path, mode) as f:
         return f.read()
-
-# def creat_tempdir():
-#     with tempfile.TemporaryDirectory() as temp:
-#         return temp
