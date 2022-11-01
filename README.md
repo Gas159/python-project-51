@@ -16,5 +16,12 @@ $ pip install --user git+https://github.com/Gas159/python-project-51.git
 ## Usage
 Option -o or --output give u changes directory to download (default: current directory)
 Running:
-```$ page_loader  'http://some.adress.com/' 
 ```
+$ page_loader http://some.adress.com/
+```
+
+### Run program
+<a href="https://asciinema.org/a/7K7qLYrOJGkH58KTg0H0mtdKD" target="_blank"><img src="https://asciinema.org/a/7K7qLYrOJGkH58KTg0H0mtdKD.svg" /></a>
+
+### Wrong path and url running
+<a href="https://asciinema.org/a/kijuSgF9VYIA6wr1WzI0M0Vpb" target="_blank"><img src="https://asciinema.org/a/kijuSgF9VYIA6wr1WzI0M0Vpb.svg" /></a>

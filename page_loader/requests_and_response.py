@@ -34,15 +34,19 @@ def get_response(url):
         response = requests.get(url, timeout=1, headers=header)
         response.raise_for_status()
     except requests.exceptions.HTTPError as e:
+
         loger.error(f'An HTTP error occurred. \n{e}')
         raise KnownError() from e
     except requests.exceptions.ConnectionError as e:
+
         loger.error(f'A Connection error occurred.\n{e}')
         raise KnownError() from e
     except requests.exceptions.RequestException as e:
+
         loger.error(f'Some went wrong.\n{e}')
         raise AllErrors() from e
-    return response
+    else:
+        return response
 
 
 def change_response(url, data, directory):

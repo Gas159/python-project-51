@@ -6,7 +6,7 @@ build:
 publish:
 	poetry publish --dry-run
 patch:
-	python3 -m pip install --user --force-reinstall dist/*.whl
+	python3 -m pip inmake stall --user --force-reinstall dist/*.whl
 patch1:
 	python3 -m pip install --user dist/*.whl
 lint:

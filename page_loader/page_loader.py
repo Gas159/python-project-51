@@ -5,7 +5,6 @@ from page_loader.requests_and_response \
     import get_response, change_response, get_bs, get_name
 from progress.bar import FillingSquaresBar
 
-
 # FORMAT1 = '%(asctime)s :: %(name)s :%(lineno)s - %(levelname)s - %(message)s'
 FORMAT = '%(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
@@ -17,14 +16,13 @@ fh.setFormatter(logging.Formatter(
     "%(name)s %(asctime)s %(levelname)s %(message)s"))
 fh.setLevel(logging.ERROR)
 
-
 loger.addHandler(fh)
 
 
 def download(url: str, cli_path=os.getcwd()) -> str:
     loger.info(f'{30 * "*"} Start program! {30 * "*"}')
     loger.debug(f'Logger was initialized for module {__name__}')
-    check_valid_path(cli_path)
+    check_valid_path_and_url(url, cli_path)
 
     response = get_response(url)
     page_path = os.path.abspath(os.path.join(cli_path, get_name(url,
@@ -46,7 +44,7 @@ def saver(response, path, mode='w'):
     loger.debug(f'Save file in {path} with mode "{mode}"')
 
 
-def check_valid_path(path_to_save_html):
+def check_valid_path_and_url(url, path_to_save_html):
     if not os.path.exists(path_to_save_html):
         loger.error(f'DirNotFound {path_to_save_html}')
         # loger.info(f'DirNotFound {path_to_save_html}')
