@@ -5,7 +5,6 @@ from page_loader.requests_and_response \
     import get_response, change_response, get_bs, get_name
 from progress.bar import FillingSquaresBar
 
-# FORMAT1 = '%(asctime)s :: %(name)s :%(lineno)s - %(levelname)s - %(message)s'
 FORMAT = '%(message)s'
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 loger = logging.getLogger(__name__)
@@ -30,7 +29,6 @@ def download(url: str, cli_path=os.getcwd()) -> str:
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
     saver(soup, page_path)
-    # loger.debug(f'Page download sucсessfully in: {page_path}')
     loger.info(f'{30 * "*"} End program {30 * "*"}')
     return page_path
 
@@ -47,5 +45,4 @@ def saver(response, path, mode='w'):
 def check_valid_path_and_url(url, path_to_save_html):
     if not os.path.exists(path_to_save_html):
         loger.error(f'DirNotFound {path_to_save_html}')
-        # loger.info(f'DirNotFound {path_to_save_html}')
         raise KnownError
