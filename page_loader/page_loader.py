@@ -11,12 +11,12 @@ FORMAT = '%(message)s'
 logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 loger = logging.getLogger(__name__)
 
-#fh = logging.FileHandler(f"{__name__}.log", mode='w')
-#fh.setFormatter(logging.Formatter(
+# fh = logging.FileHandler(f"{__name__}.log", mode='w')
+# fh.setFormatter(logging.Formatter(
 #    "%(name)s %(asctime)s %(levelname)s %(message)s"))
-#fh.setLevel(logging.ERROR)
+# fh.setLevel(logging.ERROR)
 
-#loger.addHandler(fh)
+# loger.addHandler(fh)
 
 
 def download(url: str, cli_path=None) -> str:
