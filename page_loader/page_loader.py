@@ -2,7 +2,7 @@ import logging
 import os
 from page_loader.requests_and_response \
     import get_response, change_response, get_bs, \
-    generate_name, check_valid_path_and_url
+    generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
 FORMAT = '%(message)s'
@@ -18,17 +18,16 @@ loger.addHandler(fh)
 
 
 def download(url: str, cli_path=os.getcwd()) -> str:
-    loger.info(f'{30 * "*"} Start program {30 * "*"}')
+    loger.info(f'{37 * "*"} Start program {37 * "*"}')
     loger.debug(f'Logger was initialized for module {__name__}')
     check_valid_path_and_url(cli_path)
 
     response = get_response(url)
-    page_path = os.path.abspath(os.path.join(cli_path, generate_name(url,cli_path,
-                                                                     file=True)))
+    page_path = os.path.abspath(os.path.join(cli_path, generate_path(url)))
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
     saver(soup, page_path)
-    loger.info(f'{30 * "*"} End program {30 * "*"}')
+    loger.info(f'{37 * "*"} End program {37 * "*"}')
     return page_path
 
 
@@ -38,4 +37,4 @@ def saver(response, path, mode='w'):
     with open(path, mode, encoding='utf-8') as file:
         file.write(response.prettify())
         bar.finish()
-    loger.debug(f'Save file in {path} with mode "{mode}"')
+    loger.debug(f'Save file in {path}')

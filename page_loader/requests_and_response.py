@@ -68,9 +68,10 @@ def change_response(url, data, directory_name):
             link_to_tag = val.get(atr)
             if check_local_link(url, link_to_tag):
                 download_link = urljoin(url, link_to_tag)
-                path_name = generate_name(url, directory_name,
-                                          full_link=link_to_tag,
-                                          directory=True)
+
+                path_name = generate_path(
+                    url, directory_name, link_to_file=link_to_tag, directory=True)
+
                 link_bytes = get_response(download_link)
                 val[atr] = path_name
 
@@ -113,77 +114,34 @@ def get_urlparse(path: str):
     return urlparse_result, name, ext
 
 
-def generate_name(path, directory_name, full_link=None, directory=None, file=None):
-    urlparse_result = urlparse(path.rstrip('/'))
-    full_name = urlparse_result.netloc + urlparse_result.path
-    only_netlock_name = urlparse_result.netloc
-    # res = ''
-    # for i in netloc_path_name:
-    #     if i.isdigit() or i.isalpha():
-    #         res += i
-    #     else:
-    #         res += '-'
-    if file:
-        return generate_path(full_name) + ".html"
+def generate_path(url, directory_name=None, link_to_file=None, directory=None):
+    urlparse_result = urlparse(url)
+    costume_name = urlparse_result.netloc + urlparse_result.path
+    body, ext = os.path.splitext(costume_name)
+    name_of_path = generate_name(body)
+    if not ext:
+        ext = '.html'
+
     if directory:
-        dir_path = os.path.join(directory_name, generate_path(full_name)  + '_files')
-        if not os.path.exists(dir_path):
-            os.mkdir(dir_path)
-        print('Dir', dir_path)
-        print(os.path.exists(dir_path), os.path.abspath(dir_path))
+        dir_name =os.path.join(directory_name, name_of_path + '_files')
+        if not os.path.exists(dir_name):
+            os.mkdir(dir_name)
 
-        url_result = urlparse(full_link).path
-        body, ext = os.path.splitext(url_result)
-        print('1111', full_link)
-        print(generate_path(full_name) ,body, ext)
-        print()
-        if not ext:
-            ext = '.html'
-        if url_result[0] == '/' or url_result[0] == '.':
-            file_name = generate_path(only_netlock_name) +'-' + generate_path(body) + ext
-        else:
-            file_name = generate_path(full_name) + '-' + generate_path(body) + ext
-        print('ut us os file name', file_name)
-        print()
-        result = os.path.join(dir_path, file_name)
-        print(type(result))
+        name_of_file = generate_path(urljoin(url, link_to_file))
+        return os.path.join(dir_name, name_of_file)
 
-        loger.debug(f'Path name created {result}')
-        return result
+    return name_of_path + ext
 
 
-def generate_path(path):
+def generate_name(path):
     res = ''
-    for i in path.strip('./'):
+    for i in path.strip('/'):
         if i.isdigit() or i.isalpha():
             res += i
         else:
             res += '-'
     print('Generate body', res)
     return res
-
-
-# def get_name(path, direct=None, file=None, full_link=None, directory=None):
-#     loger.debug('Get name')
-#     _, tail, ext = get_urlparse(path)
-#     res = ''
-#     for i in tail:
-#         if i.isdigit() or i.isalpha():
-#             res += i
-#         else:
-#             res += '-'
-#     if file:
-#         return res + ".html"
-#     if direct:
-#         dir_path = os.path.join(directory, res + '_files')
-#         if not os.path.exists(dir_path):
-#             os.mkdir(dir_path)
-#         name, _, ext = get_name(full_link, full_link=True)
-#         if not ext:
-#             ext = '.html'
-#         return f'{res}_files/{name}{ext}'
-#     if full_link:
-#         return res, tail, ext
 
 
 def check_valid_path_and_url(path_to_save_html):

@@ -6,6 +6,7 @@ import os
 from page_loader.exceptions import KnownError,AllErrors
 
 
+
 URL = 'https://gas159.github.io/'
 
 
@@ -20,6 +21,10 @@ def test_connection(requests_mock):
         requests_mock.get(URL, exc=requests.RequestException)
         with tempfile.TemporaryDirectory() as temp:
             download(URL, temp)
+
+def test_download1(requests_mock):
+    with tempfile.TemporaryDirectory() as tempdir:
+        pass
 
 def test_download(requests_mock):
     with tempfile.TemporaryDirectory() as tempdir:
