@@ -25,7 +25,7 @@ def download(url: str, cli_path=None) -> str:
     check_valid_path_and_url(cli_path)
 
     response = get_response(url)
-    page_path = os.path.join(cli_path, generate_path(url))
+    page_path = os.path.abspath( os.path.join(cli_path, generate_path(url)))
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
     saver(soup, page_path)
