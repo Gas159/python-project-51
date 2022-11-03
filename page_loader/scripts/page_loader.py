@@ -1,5 +1,5 @@
 #!/urs/bin/env python3
-# import sys
+import sys
 
 from page_loader import download
 from page_loader.cli import parse
