@@ -85,7 +85,7 @@ def get_tags_to_change(data) -> list:
     loger.debug('get tags to change in bs.object')
     all_tags = []
     for tag, atr in TAGS_FOR_DOWNLOAD.items():
-        all_tags.append((atr, data.find_all(tag, {atr: True})))
+        all_tags.append((atr, data.find_all(tag, atr == True)))
     return all_tags
 
 
