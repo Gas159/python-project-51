@@ -60,7 +60,7 @@ def test_download1(requests_mock):
 #         result_data = reader(result)
 #
 #         current_path_to_download_file = os.path.join(tempdir,
-#                                                      'gas159-github-io_files/gas159-github-io-images-poster.jpg')
+#                                                      'gas159-github-io_files/poster.jpg')
 #         current_download_file = reader(current_path_to_download_file, mode='rb')
 #
 #         assert result_data == expected_data
