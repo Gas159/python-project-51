@@ -13,11 +13,9 @@ def main():
     except KnownError:
         sys.exit(1)
     except AllErrors:
-        sys.exit(2)
+        sys.exit(1)
     except KeyboardInterrupt:
         sys.exit(1)
-    #else:
-     #   sys.exit(0)
 
 
 if __name__ == '__main__':
