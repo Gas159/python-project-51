@@ -69,11 +69,12 @@ def change_response(url, data, directory_name):
             if check_local_link(url, link_to_tag):
                 download_link = urljoin(url, link_to_tag)
 
-                path_name = generate_path(
-                    url, directory_name, link_to_file=link_to_tag, directory=True)
-
+                path_to_change, path_name = generate_path(
+                    url, directory_name, link_to_file=link_to_tag,
+                    directory=True)
+                print('!!!!!!!!!!!!!!!1', path_to_change)
                 link_bytes = get_response(download_link)
-                val[atr] = path_name
+                val[atr] = path_to_change
 
                 bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
                 loader(path_name, link_bytes.content, bar)
@@ -92,8 +93,8 @@ def loader(path_name, link_bytes, bar):
 def get_tags_to_change(data) -> list:
     loger.debug('get tags to change in bs.object')
     all_tags = []
-    for tag, atrrib in TAGS_FOR_DOWNLOAD.items():
-        all_tags.append((atrrib, data.find_all(tag, {atrrib: True})))
+    for tag, atr in TAGS_FOR_DOWNLOAD.items():
+        all_tags.append((atr, data.find_all(tag, {atr: True})))
     return all_tags
 
 
@@ -123,19 +124,21 @@ def generate_path(url, directory_name=None, link_to_file=None, directory=None):
         ext = '.html'
 
     if directory:
-        dir_name =os.path.join(directory_name, name_of_path + '_files')
-        if not os.path.exists(dir_name):
-            os.mkdir(dir_name)
+        short_dir_name = name_of_path + '_files'
+        dir_path = os.path.join(directory_name, short_dir_name)
+        if not os.path.exists(dir_path):
+            os.mkdir(dir_path)
 
-        name_of_file = generate_path(urljoin(url, link_to_file))
-        return os.path.join(dir_name, name_of_file)
+        shor_file_name = generate_path(urljoin(url, link_to_file))
+        file_name = os.path.join(short_dir_name, shor_file_name)
+        return file_name, os.path.join(dir_path, shor_file_name)
 
     return name_of_path + ext
 
 
 def generate_name(path):
     res = ''
-    for i in path.strip('/'):
+    for i in path.strip('./'):
         if i.isdigit() or i.isalpha():
             res += i
         else:

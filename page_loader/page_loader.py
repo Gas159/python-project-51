@@ -17,13 +17,15 @@ fh.setLevel(logging.ERROR)
 loger.addHandler(fh)
 
 
-def download(url: str, cli_path=os.getcwd()) -> str:
+def download(url: str, cli_path=None) -> str:
     loger.info(f'{37 * "*"} Start program {37 * "*"}')
     loger.debug(f'Logger was initialized for module {__name__}')
+    print(cli_path)
+    print(os.path.abspath(cli_path))
     check_valid_path_and_url(cli_path)
 
     response = get_response(url)
-    page_path = os.path.abspath(os.path.join(cli_path, generate_path(url)))
+    page_path = generate_path(url)
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
     saver(soup, page_path)
