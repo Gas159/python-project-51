@@ -4,14 +4,13 @@ import tempfile
 import pytest
 import os
 from page_loader.exceptions import KnownError, AllErrors
-from page_loader.requests_and_response import generate_path
 
 URL = 'https://gas159.github.io/'
 
 
 def test_dir_not_exist(requests_mock):
     with pytest.raises(KnownError):
-        requests_mock.get(URL, text='current_data')
+        requests_mock.get(URL)
         download(URL, 'wrong path')
 
 
@@ -22,20 +21,34 @@ def test_connection(requests_mock):
             download(URL, temp)
 
 
+LIST_OF_FILES = {
+    'https://gas159.github.io/images/poster.jpg': 'gas159-github-io-images-poster.jpg',
+    'https://gas159.github.io/assets/css/style.css': 'gas159-github-io-assets-css-style.css',
+}
+
+
 def test_download1(requests_mock):
     with tempfile.TemporaryDirectory() as tempdir:
-        original_html = reader(generate_fixtures_path('original.html'))
-        expected_html = reader(generate_fixtures_path('expected.html'))
+        original_html = reader(generate_fixtures_path('original.html', ))
+        expected_html = reader(generate_fixtures_path('expected.html', 'expected'))
 
+        for url, value, in LIST_OF_FILES.items():
+            file = reader(generate_fixtures_path(value, 'images'), mode='rb')
+            requests_mock.get(url, content=file)
+            requests_mock.get(URL, text=original_html)
 
-        requests_mock.get(URL, text=original_html)
-        exp_path =  generate_path(URL, )
-        # requests_mock.get()
         result = download(URL, tempdir)
         assert reader(result) == expected_html
+        expect_file = reader(generate_fixtures_path
+                             ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
+        q = "gas159-github-io_files/gas159-github-io-images-poster.jpg"
+        w = os.path.join(tempdir, q)
+
+        with open(w, 'rb') as f:
+            current_file = f.read()
+        assert expect_file == current_file
 
 
-# def test_download(requests_mock):
 #     with tempfile.TemporaryDirectory() as tempdir:
 #
 #         fix_link = 'expected.html'
@@ -74,13 +87,14 @@ def test_download1(requests_mock):
 #     ('https://github.com/mrjonsonDD/python-project-lvl3.css',
 #      'github-com-mrjonsonDD-python-project-lvl3.css', True, None)
 # ])
-# def test_get_name(URL, get_name, dir_status, file_status):
+# def test_get_name(URL, get_name, dir_
+# status, file_status):
 #     assert format_local_name(URL, file=file_status,
 #                              dir=dir_status) == get_name
 
-def generate_fixtures_path(name):
+def generate_fixtures_path(name, direct=''):
     dir_name = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(dir_name, 'fixtures', name)
+    return os.path.join(dir_name, 'fixtures', direct, name)
 
 
 def reader(path, mode='r'):
