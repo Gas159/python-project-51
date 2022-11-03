@@ -1,12 +1,15 @@
 import logging
 import os
+import sys
+
 from page_loader.requests_and_response \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
 FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+logging.basicConfig(level=logging.DEBUG, format=FORMAT,
+                    stream=sys.stderr)
 loger = logging.getLogger(__name__)
 
 fh = logging.FileHandler(f"{__name__}.log", mode='w')
@@ -20,17 +23,15 @@ loger.addHandler(fh)
 def download(url: str, cli_path=None) -> str:
     loger.info(f'{37 * "*"} Start program {37 * "*"}')
     loger.debug(f'Logger was initialized for module {__name__}')
-    print(cli_path)
-    print(os.path.abspath(cli_path))
-    check_valid_path_and_url(cli_path)
 
+    check_valid_path_and_url(cli_path)
     response = get_response(url)
     page_path = os.path.join(cli_path, generate_path(url))
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
+
     saver(soup, page_path)
     loger.info(f'{37 * "*"} End program {37 * "*"}')
-    print(cli_path)
     return page_path
 
 

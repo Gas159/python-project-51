@@ -23,14 +23,6 @@ TAGS_FOR_DOWNLOAD = {
 loger = logging.getLogger(__name__)
 
 
-# fh = logging.FileHandler(f"{__name__}.log", mode='w')
-# fh.setFormatter(logging.Formatter(
-#     "%(name)s %(asctime)s %(levelname)s %(message)s"))
-# fh.setLevel(logging.ERROR)
-#
-# loger.addHandler(fh)
-
-
 def get_bs(response):
     loger.debug('Get bs')
     return BeautifulSoup(response, 'html.parser')
@@ -72,7 +64,6 @@ def change_response(url, data, directory_name):
                 path_to_change, path_name = generate_path(
                     url, directory_name, link_to_file=link_to_tag,
                     directory=True)
-                print('!!!!!!!!!!!!!!!1', path_to_change)
                 link_bytes = get_response(download_link)
                 val[atr] = path_to_change
 
@@ -102,17 +93,9 @@ def check_local_link(url_1, url_2):
     loger.debug('Checking local link for base url')
     home_url_parse = urlparse(url_1).netloc
     download_url_parse = urlparse(url_2).netloc
-    if home_url_parse == download_url_parse or download_url_parse == '':
+    if home_url_parse is download_url_parse or download_url_parse == '':
         return True
     return False
-
-
-def get_urlparse(path: str):
-    loger.debug(f'Get urlparse from {path}')
-    urlparse_result = urlparse(path.strip('/'))
-    name, ext = os.path.splitext(urlparse_result.path)
-    name = urlparse_result.netloc + name
-    return urlparse_result, name, ext
 
 
 def generate_path(url, directory_name=None, link_to_file=None, directory=None):
@@ -143,7 +126,6 @@ def generate_name(path):
             res += i
         else:
             res += '-'
-    print('Generate body', res)
     return res
 
 
