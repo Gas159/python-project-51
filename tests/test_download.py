@@ -41,11 +41,10 @@ def test_download1(requests_mock):
         assert reader(result) == expected_html
         expect_file = reader(generate_fixtures_path
                              ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
-        q = "gas159-github-io_files/gas159-github-io-images-poster.jpg"
-        w = os.path.join(tempdir, q)
 
-        with open(w, 'rb') as f:
-            current_file = f.read()
+        current_file = reader(os.path.join(tempdir,
+                         "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
+
         assert expect_file == current_file
 
 
