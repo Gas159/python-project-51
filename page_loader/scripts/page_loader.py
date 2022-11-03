@@ -1,5 +1,5 @@
 #!/urs/bin/env python3
-import sys
+# import sys
 
 from page_loader import download
 from page_loader.cli import parse
@@ -16,8 +16,8 @@ def main():
         sys.exit(1)
     except KeyboardInterrupt:
         sys.exit(1)
-    else:
-        sys.exit(0)
+#   else:
+#       sys.exit(0)
 
 
 if __name__ == '__main__':
