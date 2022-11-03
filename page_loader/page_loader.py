@@ -1,6 +1,6 @@
 import logging
 import os
-import sys
+# import sys
 
 from page_loader.requests_and_response \
     import get_response, change_response, get_bs, \
