@@ -10,6 +10,7 @@ def main():
     try:
         args = parse()
         download(args.url, args.path)
+        sys.exit(0)
     except KnownError:
         sys.exit(1)
     except AllErrors:
