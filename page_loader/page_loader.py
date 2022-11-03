@@ -8,16 +8,15 @@ from page_loader.requests_and_response \
 from progress.bar import FillingSquaresBar
 
 FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT,
-                    stream=sys.stderr)
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 loger = logging.getLogger(__name__)
 
-fh = logging.FileHandler(f"{__name__}.log", mode='w')
-fh.setFormatter(logging.Formatter(
-    "%(name)s %(asctime)s %(levelname)s %(message)s"))
-fh.setLevel(logging.ERROR)
+#fh = logging.FileHandler(f"{__name__}.log", mode='w')
+#fh.setFormatter(logging.Formatter(
+#    "%(name)s %(asctime)s %(levelname)s %(message)s"))
+#fh.setLevel(logging.ERROR)
 
-loger.addHandler(fh)
+#loger.addHandler(fh)
 
 
 def download(url: str, cli_path=None) -> str:
