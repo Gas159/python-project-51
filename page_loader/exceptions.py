@@ -1,4 +1,4 @@
-class AllErrors(Exception):
+class AllErrors(BaseException):
     pass
 
 

@@ -35,15 +35,18 @@ def get_response(url):
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as e:
-        loger.error(f'An HTTP error occurred. \n{e}')
+        loger.info(f'some problem with {url}')
+        loger.error(f'An HTTP error occurred {url}. \n{e}')
         raise KnownError() from e
 
     except requests.exceptions.ConnectionError as e:
-        loger.error(f'A Connection error occurred.\n{e}')
+        loger.info(f'some problem with {url}')
+        loger.error(f'A Connection error occurred {url}.\n{e}')
         raise KnownError() from e
 
     except requests.exceptions.RequestException as e:
-        loger.error(f'Some went wrong.\n{e}')
+        loger.info(f'some problem with {url}')
+        loger.error(f'Some went wrong {url}.\n{e}')
         raise AllErrors() from e
 
     else:
