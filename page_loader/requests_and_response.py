@@ -141,4 +141,6 @@ def generate_name(path):
 def check_valid_path_and_url(path_to_save_html):
     if not os.path.exists(path_to_save_html):
         loger.error(f'DirNotFound {path_to_save_html}')
+        loger.info(f'some problem with dir')
+
         raise KnownError

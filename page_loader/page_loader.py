@@ -7,8 +7,8 @@ from page_loader.requests_and_response \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
-# FORMAT = '%(message)s'
-# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+FORMAT = '%(message)s'
+logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 # stream=sys.stderr
 loger = logging.getLogger(__name__)
 
