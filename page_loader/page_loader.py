@@ -1,23 +1,24 @@
 import logging
 import os
-import sys
+# import sys
 
 from page_loader.requests_and_response \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
-FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT,
-                    stream=sys.stderr)
+# FORMAT = '%(message)s'
+# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+# stream=sys.stderr
 loger = logging.getLogger(__name__)
 
-fh = logging.FileHandler(f"{__name__}.log", mode='w')
-fh.setFormatter(logging.Formatter(
-    "%(name)s %(asctime)s %(levelname)s %(message)s"))
-fh.setLevel(logging.ERROR)
 
-loger.addHandler(fh)
+# fh = logging.FileHandler(f"{__name__}.log", mode='w')
+# fh.setFormatter(logging.Formatter(
+#     "%(name)s %(asctime)s %(levelname)s %(message)s"))
+# fh.setLevel(logging.ERROR)
+#
+# loger.addHandler(fh)
 
 
 def download(url: str, cli_path=None) -> str:
