@@ -21,6 +21,12 @@ TAGS_FOR_DOWNLOAD = {
     'script': 'src'
 }
 loger = logging.getLogger(__name__)
+fh = logging.FileHandler(f"{__name__}.log", mode='w')
+fh.setFormatter(logging.Formatter(
+    "%(name)s %(asctime)s %(levelname)s %(message)s"))
+fh.setLevel(logging.ERROR)
+
+loger.addHandler(fh)
 
 
 def get_bs(response):
