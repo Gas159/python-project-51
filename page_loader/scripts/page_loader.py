@@ -15,7 +15,8 @@ def main():
     logging.basicConfig(level=logging.ERROR)
     try:
         args = parse()
-        download(args.url, args.path)
+        print( download(args.url, args.path))
+
         # sys.exit(0)
     except KnownError:
         sys.exit(1)
