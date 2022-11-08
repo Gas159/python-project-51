@@ -1,5 +1,5 @@
 #!/urs/bin/env python3
-# import logging
+import logging
 import sys
 
 from page_loader import download
@@ -11,6 +11,8 @@ from page_loader.exceptions import KnownError, AllErrors
 
 
 def main():
+    FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
+    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
     try:
         args = parse()
         download(args.url, args.path)
