@@ -1,7 +1,7 @@
 import logging
 import os
 
-from page_loader.requests_and_response \
+from page_loader.supports \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
