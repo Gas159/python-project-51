@@ -24,13 +24,8 @@ def main():
         sys.exit(1)
     except KeyboardInterrupt:
         sys.exit(1)
-<<<<<<< HEAD
-#   else:
-#       sys.exit(0)
-=======
     else:
         sys.exit(0)
->>>>>>> try_fix
 
 
 if __name__ == '__main__':

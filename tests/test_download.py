@@ -24,12 +24,8 @@ def test_connection(requests_mock):
 LIST_OF_FILES = {
     'https://gas159.github.io/images/poster.jpg': 'gas159-github-io-images-poster.jpg',
     'https://gas159.github.io/assets/css/style.css': 'gas159-github-io-assets-css-style.css',
-<<<<<<< HEAD
-    "https://gas159.github.io/assets/scripts.js" : 'gas159-github-io-assets-scripts.js'
-=======
     'https://gas159.github.io/assets/scripts.js': 'gas159-github-io-assets-scripts.js'
 
->>>>>>> try_fix
 }
 
 

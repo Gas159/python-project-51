@@ -20,6 +20,8 @@ TAGS_FOR_DOWNLOAD = {
     'link': 'href',
     'script': 'src'
 }
+
+
 # loger = logging.getLogger(__name__)
 # fh = logging.FileHandler(f"{__name__}.log", mode='w')
 # fh.setFormatter(logging.Formatter(
@@ -94,7 +96,7 @@ def get_tags_to_change(data) -> list:
     logging.debug('get tags to change in bs.object')
     all_tags = []
     for tag, atr in TAGS_FOR_DOWNLOAD.items():
-        all_tags.append((atr, data.find_all(tag, atr == True)))
+        all_tags.append((atr, data.find_all(tag, {atr: True})))
     return all_tags
 
 

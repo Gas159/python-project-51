@@ -1,26 +1,22 @@
 import logging
 import os
-<<<<<<< HEAD
-# import sys
-=======
->>>>>>> try_fix
 
-from page_loader.supports \
+
+from page_loader.supports_files \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
-<<<<<<< HEAD
-FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
-loger = logging.getLogger(__name__)
+
+# FORMAT = '%(message)s'
+# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+# loger = logging.getLogger(__name__)
 
 # fh = logging.FileHandler(f"{__name__}.log", mode='w')
 # fh.setFormatter(logging.Formatter(
 #    "%(name)s %(asctime)s %(levelname)s %(message)s"))
 # fh.setLevel(logging.ERROR)
 
-=======
 # FORMAT = '%(message)s'
 # logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 # stream=sys.stderr
@@ -32,7 +28,6 @@ loger = logging.getLogger(__name__)
 #     "%(name)s %(asctime)s %(levelname)s %(message)s"))
 # fh.setLevel(logging.ERROR)
 #
->>>>>>> try_fix
 # loger.addHandler(fh)
 
 
