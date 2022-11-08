@@ -1,16 +1,15 @@
 import logging
 import os
-# import sys
 
 from page_loader.requests_and_response \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
-FORMAT = '%(message)s'
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+# FORMAT = '%(message)s'
+# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 # stream=sys.stderr
-loger = logging.getLogger(__name__)
+# loger = logging.getLogger(__name__)
 
 
 # fh = logging.FileHandler(f"{__name__}.log", mode='w')
@@ -22,8 +21,8 @@ loger = logging.getLogger(__name__)
 
 
 def download(url: str, cli_path=None) -> str:
-    loger.info(f'{37 * "*"} Start program {37 * "*"}')
-    loger.debug(f'Logger was initialized for module {__name__}')
+    logging.info(f'{37 * "*"} Start program {37 * "*"}')
+    logging.debug(f'Logger was initialized for module {__name__}')
 
     check_valid_path_and_url(cli_path)
     response = get_response(url)
@@ -32,7 +31,7 @@ def download(url: str, cli_path=None) -> str:
     change_response(url, soup, cli_path)
 
     saver(soup, page_path)
-    loger.info(f'{37 * "*"} End program {37 * "*"}')
+    logging.info(f'{37 * "*"} End program {37 * "*"}')
     return page_path
 
 
@@ -42,4 +41,4 @@ def saver(response, path, mode='w'):
     with open(path, mode, encoding='utf-8') as file:
         file.write(response.prettify())
         bar.finish()
-    loger.debug(f'Save file in {path}')
+    logging.debug(f'Save file in {path}')

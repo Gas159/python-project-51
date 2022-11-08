@@ -20,39 +20,39 @@ TAGS_FOR_DOWNLOAD = {
     'link': 'href',
     'script': 'src'
 }
-loger = logging.getLogger(__name__)
-fh = logging.FileHandler(f"{__name__}.log", mode='w')
-fh.setFormatter(logging.Formatter(
-    "%(name)s %(asctime)s %(levelname)s %(message)s"))
-fh.setLevel(logging.ERROR)
-
-loger.addHandler(fh)
+# loger = logging.getLogger(__name__)
+# fh = logging.FileHandler(f"{__name__}.log", mode='w')
+# fh.setFormatter(logging.Formatter(
+#     "%(name)s %(asctime)s %(levelname)s %(message)s"))
+# fh.setLevel(logging.ERROR)
+#
+# loger.addHandler(fh)
 
 
 def get_bs(response):
-    loger.debug('Get bs')
+    logging.debug('Get bs')
     return BeautifulSoup(response, 'html.parser')
 
 
 def get_response(url):
-    loger.debug(f'get response with requests.get({url})')
+    logging.debug(f'get response with requests.get({url})')
     try:
         response = requests.get(url, timeout=1, headers=header)
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as e:
-        loger.info(f'some problem with {url}')
-        loger.error(f'An HTTP error occurred {url}. \n{e}')
+        # loger.info(f'some problem with {url}')
+        logging.error(f'An HTTP error occurred {url}. \n{e}')
         raise KnownError() from e
 
     except requests.exceptions.ConnectionError as e:
-        loger.info(f'some problem with {url}')
-        loger.error(f'A Connection error occurred {url}.\n{e}')
+        # loger.info(f'some problem with {url}')
+        logging.error(f'A Connection error occurred {url}.\n{e}')
         raise KnownError() from e
 
     except requests.exceptions.RequestException as e:
-        loger.info(f'some problem with {url}')
-        loger.error(f'Some went wrong {url}.\n{e}')
+        # loger.info(f'some problem with {url}')
+        logging.error(f'Some went wrong {url}.\n{e}')
         raise AllErrors() from e
 
     else:
@@ -60,7 +60,7 @@ def get_response(url):
 
 
 def change_response(url, data, directory_name):
-    loger.debug('Change response')
+    logging.debug('Change response')
     tags = get_tags_to_change(data)
     for tag in tags:
         atr, values = tag
@@ -81,17 +81,17 @@ def change_response(url, data, directory_name):
 
 
 def loader(path_name, link_bytes, bar):
-    loger.debug(f'save content in {path_name}')
+    logging.debug(f'save content in {path_name}')
     with open(path_name, 'wb') as f:
         f.write(link_bytes)
         bar.next()
     bar.finish()
-    loger.debug(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
+    logging.debug(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
     time.sleep(randint(1, 2))
 
 
 def get_tags_to_change(data) -> list:
-    loger.debug('get tags to change in bs.object')
+    logging.debug('get tags to change in bs.object')
     all_tags = []
     for tag, atr in TAGS_FOR_DOWNLOAD.items():
         all_tags.append((atr, data.find_all(tag, {atr: True})))
@@ -99,7 +99,7 @@ def get_tags_to_change(data) -> list:
 
 
 def check_local_link(url_1, url_2):
-    loger.debug('Checking local link for base url')
+    logging.debug('Checking local link for base url')
     home_url_parse = urlparse(url_1).netloc
     download_url_parse = urlparse(url_2).netloc
     if home_url_parse == download_url_parse or download_url_parse == '':
@@ -140,6 +140,6 @@ def generate_name(path):
 
 def check_valid_path_and_url(path_to_save_html):
     if not os.path.exists(path_to_save_html):
-        loger.error(f'DirNotFound {path_to_save_html}')
-        loger.info(f'DirNotFound {path_to_save_html}')
+        logging.error(f'DirNotFound {path_to_save_html}')
+        logging.info(f'DirNotFound {path_to_save_html}')
         raise KnownError

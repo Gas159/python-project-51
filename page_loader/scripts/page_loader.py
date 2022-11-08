@@ -1,9 +1,13 @@
 #!/urs/bin/env python3
+import logging
 import sys
 
 from page_loader import download
 from page_loader.cli import parse
 from page_loader.exceptions import KnownError, AllErrors
+
+FORMAT = '%(message)s'
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 def main():
