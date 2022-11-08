@@ -13,11 +13,11 @@ logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 def main():
-
     try:
         args = parse()
         print(download(args.url, args.path))
         # sys.exit(0)
+
     except KnownError:
         sys.exit(1)
     except AllErrors:
