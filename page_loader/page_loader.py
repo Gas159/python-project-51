@@ -29,8 +29,8 @@ def download(url: str, cli_path=None) -> str:
     page_path = os.path.join(cli_path, generate_path(url))
     soup = get_bs(response.text)
     change_response(url, soup, cli_path)
-
     saver(soup, page_path)
+    print(page_path)
     logging.info(f'{37 * "*"} End program {37 * "*"}')
     return page_path
 
