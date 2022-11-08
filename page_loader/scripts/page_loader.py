@@ -11,8 +11,8 @@ from page_loader.exceptions import KnownError, AllErrors
 
 
 def main():
-    FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
-    logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+    # FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
+    logging.basicConfig(level=logging.DEBUG)
     try:
         args = parse()
         download(args.url, args.path)
