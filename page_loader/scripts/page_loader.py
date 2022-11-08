@@ -12,11 +12,11 @@ from page_loader.exceptions import KnownError, AllErrors
 
 def main():
     # FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.ERROR)
     try:
         args = parse()
         download(args.url, args.path)
-        sys.exit(0)
+        # sys.exit(0)
     except KnownError:
         sys.exit(1)
     except AllErrors:
