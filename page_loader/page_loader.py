@@ -20,16 +20,38 @@ def download(url: str, output_dir=None) -> str:
     response = get_response(url)
     page_path = os.path.join(output_dir, generate_path(url))
     soup = get_bs(response.text)
-    change_response(url, soup, output_dir)
-    saver(soup, page_path)
+    files_to_download = change_response(url, soup, output_dir)
+    loader(files_to_download)
+    loader(response=soup, path=page_path, mode='w')
     logging.info(f'{37 * "*"} End program {37 * "*"}')
     return page_path
 
 
-def saver(response, path, mode='w'):
-    bar = FillingSquaresBar(f'Download page to {path}', max=1)
-    bar.next()
-    with open(path, mode, encoding='utf-8') as file:
-        file.write(response.prettify())
-        bar.finish()
-    logging.debug(f'Save file in {path}')
+# def saver(response: object, path: str, mode='w'):
+#     bar = FillingSquaresBar(f'Download page to {path}', max=1)
+#     bar.next()
+#     with open(path, mode, encoding='utf-8') as file:
+#         file.write(response.prettify())
+#         bar.finish()
+#     logging.debug(f'Save file in {path}')
+
+
+def loader(files_to_load={}, response='', path='', mode='wb'):
+    if files_to_load:
+        for path_name, link_for_load in files_to_load.items():
+            bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
+            logging.debug(f'save content in {path_name}')
+            with open(path_name, mode) as f:
+                f.write(link_for_load.content)
+                bar.next()
+            bar.finish()
+            logging.debug(f'Файл {os.path.abspath(path_name)}'
+                          f' успешно скачан!')
+
+    if response:
+        bar = FillingSquaresBar(f'Download page to {path}', max=1)
+        bar.next()
+        with open(path, mode, encoding='utf-8') as file:
+            file.write(response.prettify())
+            bar.finish()
+        logging.debug(f'Save file in {path}')

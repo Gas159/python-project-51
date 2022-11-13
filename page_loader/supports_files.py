@@ -4,10 +4,8 @@ import fake_useragent
 import requests
 import logging
 import os
-import time
-from random import randint
-from page_loader.exceptions import KnownError, AllErrors
-from progress.bar import FillingSquaresBar
+from page_loader.exceptions import AllErrors
+# from progress.bar import FillingSquaresBar
 
 user = fake_useragent.UserAgent().random
 
@@ -44,33 +42,41 @@ def get_response(url):
 def change_response(url, data, directory_name):
     logging.debug('Change response')
     tags = get_tags_to_change(data)
+    all_links = {}
+
     for tag in tags:
         atr, values = tag
 
         for val in values:
             link_to_tag = val.get(atr)
+
             if check_local_link(url, link_to_tag):
                 download_link = urljoin(url, link_to_tag)
-
                 path_to_change, path_name = generate_path(
                     url, directory_name, link_to_file=link_to_tag,
                     directory=True)
-                link_bytes = get_response(download_link)
+                link_for_load = get_response(download_link)
                 val[atr] = path_to_change
+                all_links[path_name] = link_for_load
+                # print('link_for_load', type(link_for_load))
+    return all_links
 
-                bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
-                loader(path_name, link_bytes.content, bar)
+    # bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
+    # loader(path_name, link_bytes.content, bar)
 
 
-def loader(path_name, link_bytes, bar):
-    logging.debug(f'save content in {path_name}')
-    with open(path_name, 'wb') as f:
-        f.write(link_bytes)
-        bar.next()
-    bar.finish()
-    logging.debug(f'Изображение {os.path.abspath(path_name)} успешно скачано!')
-    time.sleep(randint(1, 2))
-
+# def loader(files_to_load):
+#     for path_name, link_for_load in files_to_load.items():
+#         bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
+#         logging.debug(f'save content in {path_name}')
+#         with open(path_name, 'wb') as f:
+#             # print('link for load',link_for_load)
+#             f.write(link_for_load.content)
+#             bar.next()
+#         bar.finish()
+#         logging.debug(f'Изображение {os.path.abspath(path_name)}'
+#                       f' успешно скачано!')
+#
 
 def get_tags_to_change(data) -> list:
     logging.debug('get tags to change in bs.object')
@@ -118,9 +124,3 @@ def generate_name(path):
         else:
             res += '-'
     return res
-
-# def check_valid_path_and_url(path_to_save_html):
-#     if not os.path.exists(path_to_save_html):
-#         logging.error(f'The specified directory'
-#                       f' does not exist or is a file {path_to_save_html}')
-#         raise KnownError
