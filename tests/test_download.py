@@ -29,29 +29,7 @@ LIST_OF_FILES = {
 }
 
 
-def test_download1(requests_mock):
-    with tempfile.TemporaryDirectory() as tempdir:
-        original_html = reader(generate_fixtures_path('original.html', ))
-        expected_html = reader(generate_fixtures_path('expected.html', 'expected'))
-
-        for url, value, in LIST_OF_FILES.items():
-            file = reader(generate_fixtures_path(value, 'images'), mode='rb')
-            requests_mock.get(url, content=file)
-            requests_mock.get(URL, text=original_html)
-
-        result = download(URL, tempdir)
-        assert reader(result) == expected_html
-        expect_file = reader(generate_fixtures_path
-                             ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
-
-        current_file = reader(
-            os.path.join(
-                tempdir, "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
-
-        assert expect_file == current_file
-
-
-def generate_fixtures_path(name, direct=''):
+def generate_fixtures_path(name='', direct=''):
     dir_name = os.path.dirname(os.path.abspath(__file__))
     return os.path.join(dir_name, 'fixtures', direct, name)
 
@@ -59,3 +37,28 @@ def generate_fixtures_path(name, direct=''):
 def reader(path, mode='r'):
     with open(path, mode) as f:
         return f.read()
+
+
+@pytest.mark.parametrize('original_html, expected_html ',
+                         [(reader(generate_fixtures_path('original.html')),
+                           reader(generate_fixtures_path('expected.html', 'expected')))])
+def test_download1(requests_mock, tmpdir, original_html, expected_html):
+    for url, value, in LIST_OF_FILES.items():
+        file = reader(generate_fixtures_path(value, 'images'), mode='rb')
+        requests_mock.get(url, content=file)
+        requests_mock.get(URL, text=original_html)
+
+    result = download(URL, tmpdir)
+    assert reader(result) == expected_html
+
+    expect_file = reader(generate_fixtures_path
+                         ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
+    current_file = reader(
+        os.path.join(
+            tmpdir, "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
+
+    assert expect_file == current_file
+
+    expect_count_files = generate_fixtures_path(direct='images')
+    current_count_files = os.path.join(tmpdir, "gas159-github-io_files")
+    assert len(os.listdir(current_count_files)) == len(os.listdir(expect_count_files))

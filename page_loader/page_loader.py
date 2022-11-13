@@ -1,41 +1,23 @@
 import logging
 import os
 
-
+from page_loader.exceptions import KnownError
 from page_loader.supports_files \
     import get_response, change_response, get_bs, \
     generate_path, check_valid_path_and_url
 from progress.bar import FillingSquaresBar
 
 
-# FORMAT = '%(message)s'
-# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
-# loger = logging.getLogger(__name__)
-
-# fh = logging.FileHandler(f"{__name__}.log", mode='w')
-# fh.setFormatter(logging.Formatter(
-#    "%(name)s %(asctime)s %(levelname)s %(message)s"))
-# fh.setLevel(logging.ERROR)
-
-# FORMAT = '%(message)s'
-# logging.basicConfig(level=logging.DEBUG, format=FORMAT)
-# stream=sys.stderr
-# loger = logging.getLogger(__name__)
-
-
-# fh = logging.FileHandler(f"{__name__}.log", mode='w')
-# fh.setFormatter(logging.Formatter(
-#     "%(name)s %(asctime)s %(levelname)s %(message)s"))
-# fh.setLevel(logging.ERROR)
-#
-# loger.addHandler(fh)
-
 
 def download(url: str, cli_path=None) -> str:
     logging.info(f'{37 * "*"} Start program {37 * "*"}')
     logging.debug(f'Logger was initialized for module {__name__}')
 
-    check_valid_path_and_url(cli_path)
+    if not os.path.exists(cli_path):
+        logging.error(f'The specified directory'
+                      f' does not exist or is a file {cli_path}')
+        raise KnownError
+
     response = get_response(url)
     page_path = os.path.join(cli_path, generate_path(url))
     soup = get_bs(response.text)

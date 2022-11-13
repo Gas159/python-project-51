@@ -6,8 +6,7 @@ from page_loader import download
 from page_loader.cli import parse
 from page_loader.exceptions import KnownError, AllErrors
 
-# FORMAT = '%(message)s'
-# logging.basicConfig(level=logging.DEBUG)
+
 FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
@@ -16,7 +15,6 @@ def main():
     try:
         args = parse()
         print(download(args.url, args.path))
-        # sys.exit(0)
 
     except KnownError:
         sys.exit(1)

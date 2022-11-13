@@ -22,15 +22,6 @@ TAGS_FOR_DOWNLOAD = {
 }
 
 
-# loger = logging.getLogger(__name__)
-# fh = logging.FileHandler(f"{__name__}.log", mode='w')
-# fh.setFormatter(logging.Formatter(
-#     "%(name)s %(asctime)s %(levelname)s %(message)s"))
-# fh.setLevel(logging.ERROR)
-#
-# loger.addHandler(fh)
-
-
 def get_bs(response):
     logging.debug('Get bs')
     return BeautifulSoup(response, 'html.parser')
@@ -43,17 +34,14 @@ def get_response(url):
         response.raise_for_status()
 
     except requests.exceptions.HTTPError as e:
-        # loger.info(f'some problem with {url}')
         logging.error(f'An HTTP error occurred {url}. \n{e}')
         raise KnownError() from e
 
     except requests.exceptions.ConnectionError as e:
-        # loger.info(f'some problem with {url}')
         logging.error(f'A Connection error occurred {url}.\n{e}')
         raise KnownError() from e
 
     except requests.exceptions.RequestException as e:
-        # loger.info(f'some problem with {url}')
         logging.error(f'Some went wrong {url}.\n{e}')
         raise AllErrors() from e
 
@@ -144,6 +132,4 @@ def check_valid_path_and_url(path_to_save_html):
     if not os.path.exists(path_to_save_html):
         logging.error(f'The specified directory'
                       f' does not exist or is a file {path_to_save_html}')
-        # logging.info(f'The specified directory does
-        # not exist or is a file {path_to_save_html}')
         raise KnownError
