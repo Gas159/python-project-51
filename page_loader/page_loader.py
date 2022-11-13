@@ -27,15 +27,6 @@ def download(url: str, output_dir=None) -> str:
     return page_path
 
 
-# def saver(response: object, path: str, mode='w'):
-#     bar = FillingSquaresBar(f'Download page to {path}', max=1)
-#     bar.next()
-#     with open(path, mode, encoding='utf-8') as file:
-#         file.write(response.prettify())
-#         bar.finish()
-#     logging.debug(f'Save file in {path}')
-
-
 def loader(files_to_load={}, response='', path='', mode='wb'):
     if files_to_load:
         for path_name, link_for_load in files_to_load.items():

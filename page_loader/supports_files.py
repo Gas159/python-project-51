@@ -5,7 +5,6 @@ import requests
 import logging
 import os
 from page_loader.exceptions import AllErrors
-# from progress.bar import FillingSquaresBar
 
 user = fake_useragent.UserAgent().random
 
@@ -61,22 +60,6 @@ def change_response(url, data, directory_name):
                 # print('link_for_load', type(link_for_load))
     return all_links
 
-    # bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
-    # loader(path_name, link_bytes.content, bar)
-
-
-# def loader(files_to_load):
-#     for path_name, link_for_load in files_to_load.items():
-#         bar = FillingSquaresBar(f'Download file to {path_name}', max=1)
-#         logging.debug(f'save content in {path_name}')
-#         with open(path_name, 'wb') as f:
-#             # print('link for load',link_for_load)
-#             f.write(link_for_load.content)
-#             bar.next()
-#         bar.finish()
-#         logging.debug(f'Изображение {os.path.abspath(path_name)}'
-#                       f' успешно скачано!')
-#
 
 def get_tags_to_change(data) -> list:
     logging.debug('get tags to change in bs.object')
