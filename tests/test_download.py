@@ -14,11 +14,11 @@ def test_dir_not_exist(requests_mock):
         download(URL, 'wrong path')
 
 
-def test_connection(requests_mock):
+def test_connection(requests_mock, tmpdir):
     with pytest.raises(AllErrors):
         requests_mock.get(URL, exc=requests.RequestException)
-        with tempfile.TemporaryDirectory() as temp:
-            download(URL, temp)
+
+        download(URL, tmpdir)
 
 
 LIST_OF_FILES = {

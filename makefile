@@ -17,7 +17,9 @@ lint1:
 	poetry run flake8 tests
 test:
 	poetry run pytest -vv
+	echo "\n\n ! Lint checkup process...\n"
 	poetry run flake8 page_loader
+
 test_cov:
 	poetry run pytest --cov=page_loader tests/ --cov-report xml
 test1_cov:

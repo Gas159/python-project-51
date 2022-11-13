@@ -33,14 +33,6 @@ def get_response(url):
         response = requests.get(url, timeout=1, headers=header)
         response.raise_for_status()
 
-    except requests.exceptions.HTTPError as e:
-        logging.error(f'An HTTP error occurred {url}. \n{e}')
-        raise KnownError() from e
-
-    except requests.exceptions.ConnectionError as e:
-        logging.error(f'A Connection error occurred {url}.\n{e}')
-        raise KnownError() from e
-
     except requests.exceptions.RequestException as e:
         logging.error(f'Some went wrong {url}.\n{e}')
         raise AllErrors() from e
@@ -127,9 +119,8 @@ def generate_name(path):
             res += '-'
     return res
 
-
-def check_valid_path_and_url(path_to_save_html):
-    if not os.path.exists(path_to_save_html):
-        logging.error(f'The specified directory'
-                      f' does not exist or is a file {path_to_save_html}')
-        raise KnownError
+# def check_valid_path_and_url(path_to_save_html):
+#     if not os.path.exists(path_to_save_html):
+#         logging.error(f'The specified directory'
+#                       f' does not exist or is a file {path_to_save_html}')
+#         raise KnownError
