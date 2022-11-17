@@ -2,7 +2,7 @@ import requests
 from page_loader import download
 import pytest
 import os
-from page_loader.exceptions import KnownError, AllErrors
+from page_loader.exceptions import KnownError
 
 URL = 'https://gas159.github.io/'
 
