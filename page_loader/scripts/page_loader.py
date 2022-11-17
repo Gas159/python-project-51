@@ -24,12 +24,16 @@ def main():
     #     passrequests.exceptions.RequestException
     except requests.exceptions.HTTPError as errh:
         print("Http Error:", errh)
+        sys.exit(1)
     except requests.exceptions.ConnectionError as errc:
         print("Error Connecting:", errc)
+        sys.exit(1)
     except requests.exceptions.Timeout as errt:
         print("Timeout Error:", errt)
+        sys.exit(1)
     except requests.exceptions.RequestException as err:
         print("OOps: Something Else", err)
+        sys.exit(1)
 
     # except requests.exceptions.HTTPError:
     #     print('2')
