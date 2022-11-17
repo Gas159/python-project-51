@@ -3,9 +3,10 @@ import os
 
 from page_loader.exceptions import KnownError
 from page_loader.supports_files \
-    import get_response, change_response, get_bs, \
+    import get_response, change_response, \
     generate_path
 from progress.bar import FillingSquaresBar
+from bs4 import BeautifulSoup
 
 
 def download(url: str, output_dir=None) -> str:
@@ -17,10 +18,16 @@ def download(url: str, output_dir=None) -> str:
                       f' does not exist or is a file {output_dir}')
         raise KnownError
 
+    # response = get_response(url)
+    # def get_bs(response):
+    #     logging.debug('Get bs')
+    #     return BeautifulSoup(response, 'html.parser')
+
     response = get_response(url)
     page_path = os.path.join(output_dir, generate_path(url))
-    soup = get_bs(response.text)
+    soup = BeautifulSoup(response.text, 'html.parser')
     files_to_download = change_response(url, soup, output_dir)
+
     loader(files_to_download)
     loader(response=soup, path=page_path, mode='w')
     logging.info(f'{37 * "*"} End program {37 * "*"}')

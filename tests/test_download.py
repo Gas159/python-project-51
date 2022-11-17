@@ -15,9 +15,8 @@ def test_dir_not_exist(requests_mock):
 
 
 def test_connection(requests_mock, tmpdir):
-    with pytest.raises(AllErrors):
-        requests_mock.get(URL, exc=requests.RequestException)
-
+    with pytest.raises(requests.exceptions.RequestException):
+        requests_mock.get(URL, exc=requests.exceptions.ConnectionError)
         download(URL, tmpdir)
 
 
@@ -40,16 +39,16 @@ def reader(path, mode='r'):
 
 
 @pytest.mark.parametrize('original_html, expected_html ',
-                         [(reader(generate_fixtures_path('original.html')),
-                           reader(generate_fixtures_path('expected.html', 'expected')))])
+                         [(generate_fixtures_path('original.html'),
+                           generate_fixtures_path('expected.html', 'expected'))])
 def test_download1(requests_mock, tmpdir, original_html, expected_html):
     for url, value, in LIST_OF_FILES.items():
         file = reader(generate_fixtures_path(value, 'images'), mode='rb')
         requests_mock.get(url, content=file)
-        requests_mock.get(URL, text=original_html)
+        requests_mock.get(URL, text=reader(original_html))
 
     result = download(URL, tmpdir)
-    assert reader(result) == expected_html
+    assert reader(result) == reader(expected_html)
 
     expect_file = reader(generate_fixtures_path
                          ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
@@ -59,6 +58,6 @@ def test_download1(requests_mock, tmpdir, original_html, expected_html):
 
     assert expect_file == current_file
 
-    expect_count_files = generate_fixtures_path(direct='images')
-    current_count_files = os.path.join(tmpdir, "gas159-github-io_files")
-    assert len(os.listdir(current_count_files)) == len(os.listdir(expect_count_files))
+    expect_files = generate_fixtures_path(direct='images')
+    current_files = os.path.join(tmpdir, "gas159-github-io_files")
+    assert len(os.listdir(expect_files)) == len(os.listdir(current_files))

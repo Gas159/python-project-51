@@ -1,10 +1,10 @@
 from urllib.parse import urljoin, urlparse
-from bs4 import BeautifulSoup
+# from bs4 import BeautifulSoup
 import fake_useragent
 import requests
 import logging
 import os
-from page_loader.exceptions import AllErrors
+# from page_loader.exceptions import AllErrors
 
 user = fake_useragent.UserAgent().random
 
@@ -19,23 +19,23 @@ TAGS_FOR_DOWNLOAD = {
 }
 
 
-def get_bs(response):
-    logging.debug('Get bs')
-    return BeautifulSoup(response, 'html.parser')
+# def get_bs(response):
+#     logging.debug('Get bs')
+#     return BeautifulSoup(response, 'html.parser')
 
 
 def get_response(url):
     logging.debug(f'get response with requests.get({url})')
-    try:
-        response = requests.get(url, timeout=1, headers=header)
-        response.raise_for_status()
+    # try:
+    response = requests.get(url, timeout=1, headers=header)
+    response.raise_for_status()
 
-    except requests.exceptions.RequestException as e:
-        logging.error(f'Some went wrong {url}.\n{e}')
-        raise AllErrors() from e
-
-    else:
-        return response
+    # except requests.exceptions.RequestException as e:
+    #     logging.error(f'Some went wrong {url}.\n{e}')
+    #     raise AllErrors() from e
+    #
+    # else:
+    return response
 
 
 def change_response(url, data, directory_name):
