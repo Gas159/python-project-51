@@ -1,6 +1,5 @@
 import requests
 from page_loader import download
-import tempfile
 import pytest
 import os
 from page_loader.exceptions import KnownError, AllErrors
