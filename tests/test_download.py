@@ -8,7 +8,7 @@ URL = 'https://gas159.github.io/'
 
 
 def test_dir_not_exist(requests_mock):
-    with pytest.raises(KnownError):
+    with pytest.raises(FileNotFoundError):
         requests_mock.get(URL)
         download(URL, 'wrong path')
 

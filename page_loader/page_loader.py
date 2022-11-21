@@ -1,7 +1,7 @@
 import logging
 import os
 
-from page_loader.exceptions import KnownError
+# from page_loader.exceptions import KnownError
 from page_loader.supports_files \
     import get_response, change_response, \
     generate_path
@@ -16,7 +16,7 @@ def download(url: str, output_dir=None) -> str:
     if not os.path.exists(output_dir):
         logging.error(f'The specified directory'
                       f' does not exist or is a file {output_dir}')
-        raise KnownError
+        raise FileNotFoundError
 
     # response = get_response(url)
     # def get_bs(response):
