@@ -1,12 +1,7 @@
 import logging
 import os
-
 from page_loader.supports_files import change_response
-
 from progress.bar import FillingSquaresBar
-
-
-# from bs4 import BeautifulSoup
 
 
 def download(url: str, output_dir=None) -> str:
@@ -18,13 +13,10 @@ def download(url: str, output_dir=None) -> str:
                       f' does not exist or is a file {output_dir}')
         raise FileNotFoundError
 
-    # response = get_response(url)
-    # page_path = os.path.join(output_dir, generate_path(url))
-    # soup = BeautifulSoup(response.text, 'html.parser')
     files_to_download, page_path, soup = change_response(url, output_dir)
 
     loader(files_to_download)
-    # loader(response=soup, path=page_path, mode='w')
+
     bar = FillingSquaresBar(f'Download page to {page_path}', max=1)
     bar.next()
     with open(page_path, 'w', encoding='utf-8') as file:
@@ -46,11 +38,3 @@ def loader(files_to_load={}, response='', path='', mode='wb'):
         bar.finish()
         logging.debug(f'Файл {os.path.abspath(path_name)}'
                       f' успешно скачан!')
-    #
-    # if response:
-    #     bar = FillingSquaresBar(f'Download page to {path}', max=1)
-    #     bar.next()
-    #     with open(path, mode, encoding='utf-8') as file:
-    #         file.write(response.prettify())
-    #         bar.finish()
-    #     logging.debug(f'Save file in {path}')

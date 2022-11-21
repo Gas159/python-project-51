@@ -6,7 +6,6 @@ import sys
 from page_loader import download
 from page_loader.cli import parse
 
-
 FORMAT = "%(name)s %(asctime)s %(levelname)s %(message)s"
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
@@ -31,6 +30,8 @@ def main():
     except Exception as e:
         logging.error(e)
         sys.exit(1)
+    else:
+        sys.exit(0)
 
 
 if __name__ == '__main__':
