@@ -26,9 +26,9 @@ LIST_OF_FILES = {
 }
 
 
-def generate_fixtures_path(name='', direct=''):
+def generate_fixtures_path(*args):
     dir_name = os.path.dirname(os.path.abspath(__file__))
-    return os.path.join(dir_name, 'fixtures', direct, name)
+    return os.path.join(dir_name, 'fixtures', *args)
 
 
 def reader(path, mode='r'):
@@ -38,10 +38,10 @@ def reader(path, mode='r'):
 
 @pytest.mark.parametrize('original_html, expected_html ',
                          [(generate_fixtures_path('original.html'),
-                           generate_fixtures_path('expected.html', 'expected'))])
-def test_download1(requests_mock, tmpdir, original_html, expected_html):
+                           generate_fixtures_path('expected/expected.html'))])
+def test_download(requests_mock, tmpdir, original_html, expected_html):
     for url, value, in LIST_OF_FILES.items():
-        file = reader(generate_fixtures_path(value, 'images'), mode='rb')
+        file = reader(generate_fixtures_path(os.path.join('images', value)), mode='rb')
         requests_mock.get(url, content=file)
         requests_mock.get(URL, text=reader(original_html))
 
@@ -49,13 +49,13 @@ def test_download1(requests_mock, tmpdir, original_html, expected_html):
     assert reader(result) == reader(expected_html)
 
     expect_file = reader(generate_fixtures_path
-                         ('gas159-github-io-images-poster.jpg', 'images'), mode='rb')
+                         ('images/gas159-github-io-images-poster.jpg'), mode='rb')
     current_file = reader(
         os.path.join(
             tmpdir, "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
 
     assert expect_file == current_file
 
-    expect_files = generate_fixtures_path(direct='images')
-    current_files = os.path.join(tmpdir, "gas159-github-io_files")
-    assert len(os.listdir(expect_files)) == len(os.listdir(current_files))
+    expect_files_path = generate_fixtures_path('images')
+    current_files_path = os.path.join(tmpdir, "gas159-github-io_files")
+    assert len(os.listdir(expect_files_path)) == len(os.listdir(current_files_path))

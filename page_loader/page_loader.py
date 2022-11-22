@@ -22,6 +22,7 @@ def download(url: str, output_dir=None) -> str:
     with open(page_path, 'w', encoding='utf-8') as file:
         file.write(soup.prettify())
         bar.finish()
+
     logging.debug(f'Save file in {page_path}')
     logging.info(f'{37 * "*"} End program {37 * "*"}')
     return page_path

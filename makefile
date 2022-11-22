@@ -44,3 +44,6 @@ check-in:
 	make lint
 	echo "\n\n\n ! Test checkup process...\n"
 	make test
+
+
+#  poetry run page-loader https://gas159.github.i/ -o page_loader/my_dir
