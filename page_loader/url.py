@@ -2,7 +2,7 @@ import os
 from urllib.parse import urlparse, urljoin
 
 
-def generate_path(url, directory_name=None, link_to_file=None, directory=None):
+def generate_path(url):
     urlparse_result = urlparse(url)
     costume_name = urlparse_result.netloc + urlparse_result.path
     body, ext = os.path.splitext(costume_name)
@@ -29,11 +29,12 @@ def generate_dir(url, directory_name, link_to_tag):
 
     shor_file_name = generate_path(urljoin(url, link_to_tag))
     body, ext = os.path.splitext(shor_file_name)
-    print(body, '!!', ext)
+    # print(body, '!!', ext, type(ext), id(ext))
+    # print(ext)
     if not ext:
         ext = '.html'
-    file_name = os.path.join(short_dir_name, (body + ext))
-    return file_name, os.path.join(dir_path, shor_file_name)
+    file_name_to_change = os.path.join(short_dir_name, (body + ext))
+    return file_name_to_change, os.path.join(dir_path, (body + ext))
 
 
 def generate_name(path):
