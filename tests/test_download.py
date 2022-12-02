@@ -48,7 +48,7 @@ def test_download(requests_mock, tmpdir, original_html, expected_html):
     assert reader(result) == reader(generate_fixtures_path(expected_html))
 
     expect_content = reader(generate_fixtures_path
-                         ('images/gas159-github-io-images-poster.jpg'), mode='rb')
+                            ('images/gas159-github-io-images-poster.jpg'), mode='rb')
     current_content = reader(
         os.path.join(
             tmpdir, "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
