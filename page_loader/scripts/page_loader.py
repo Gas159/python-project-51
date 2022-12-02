@@ -29,14 +29,13 @@ def main():
             # """Simple program that greets NAME for a total of COUNT times."""
             # for x in range(count):
             #     click.echo(f"Hello {name}!")
-            # click.echo(download(path, o))
+            click.echo(download(path, o))
             #     click.echo('End programm')
-            return path, o
+            # return path, o
 
-        print(download(parse_with_click()))
+        download(parse_with_click())
 
     except requests.exceptions.HTTPError:
-
         logging.error('This page was not found')
         sys.exit(1)
     except requests.exceptions.ConnectionError:
