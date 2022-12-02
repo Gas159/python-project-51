@@ -11,6 +11,14 @@ def generate_path(url):
     return name_of_path + ext
 
 
+def check_local_link(url_1, url_2):
+    home_url_parse = urlparse(url_1).netloc
+    download_url_parse = urlparse(url_2).netloc
+    if home_url_parse == download_url_parse or download_url_parse == '':
+        return True
+    return False
+
+
 def generate_dir(url: str, directory_name: str, link_to_tag: str):
     short_dir_name = generate_path(url) + '_files'
     dir_path = os.path.join(directory_name, short_dir_name)

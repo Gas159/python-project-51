@@ -1,8 +1,7 @@
 from urllib.parse import urljoin
 import requests
 import logging
-from page_loader.url import generate_dir
-from page_loader.relevant_url import check_local_link
+from page_loader.url import generate_dir, check_local_link
 from bs4 import BeautifulSoup
 
 TAGS_FOR_DOWNLOAD = {
@@ -12,21 +11,21 @@ TAGS_FOR_DOWNLOAD = {
 }
 
 
-def change_response(url, directory_name):
+def prepare_response(url, directory_name):
     logging.debug('Change response')
     response = get_response(url)
     tags = []
     soup_content = BeautifulSoup(response.text, 'html.parser')
-    for tag, atr in TAGS_FOR_DOWNLOAD.items():
-        tags.append((atr, soup_content.find_all(tag, {atr: True})))
+    for tag, attr in TAGS_FOR_DOWNLOAD.items():
+        tags.append((attr, soup_content.find_all(tag, {attr: True})))
 
     all_links = {}
 
     for tag in tags:
-        atr, values = tag
+        attr, values = tag
 
         for val in values:
-            link_to_tag = val.get(atr)
+            link_to_tag = val.get(attr)
 
             if check_local_link(url, link_to_tag):
                 download_link = urljoin(url, link_to_tag)
@@ -34,9 +33,8 @@ def change_response(url, directory_name):
                 path_changed, path_name = generate_dir(
                     url, directory_name, link_to_tag)
 
-                link_for_load = get_response(download_link)
-                val[atr] = path_changed
-                all_links[path_name] = link_for_load
+                val[attr] = path_changed
+                all_links[path_name] = download_link
     return all_links, soup_content.prettify()
 
 

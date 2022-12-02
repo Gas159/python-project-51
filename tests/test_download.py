@@ -37,24 +37,23 @@ def reader(path, mode='r'):
 
 
 @pytest.mark.parametrize('original_html, expected_html ',
-                         [(generate_fixtures_path('original.html'),
-                           generate_fixtures_path('expected/expected.html'))])
+                         [('original.html', 'expected/expected.html')])
 def test_download(requests_mock, tmpdir, original_html, expected_html):
     for url, value, in LIST_OF_FILES.items():
         file = reader(generate_fixtures_path(os.path.join('images', value)), mode='rb')
         requests_mock.get(url, content=file)
-        requests_mock.get(URL, text=reader(original_html))
 
+    requests_mock.get(URL, text=reader(generate_fixtures_path(original_html)))
     result = download(URL, tmpdir)
-    assert reader(result) == reader(expected_html)
+    assert reader(result) == reader(generate_fixtures_path(expected_html))
 
-    expect_file = reader(generate_fixtures_path
+    expect_content = reader(generate_fixtures_path
                          ('images/gas159-github-io-images-poster.jpg'), mode='rb')
-    current_file = reader(
+    current_content = reader(
         os.path.join(
             tmpdir, "gas159-github-io_files/gas159-github-io-images-poster.jpg"), mode='rb')
 
-    assert expect_file == current_file
+    assert expect_content == current_content
 
     expect_files_path = generate_fixtures_path('images')
     current_files_path = os.path.join(tmpdir, "gas159-github-io_files")
