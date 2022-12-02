@@ -5,7 +5,7 @@ from page_loader.url import generate_path
 from page_loader.supports_files import prepare_response, get_response
 
 
-def download(url: str, output_dir: str = None) -> str:
+def download(url: str, output_dir: str) -> str:
     logging.info(f'{37 * "*"} Start program {37 * "*"}')
     logging.debug(f'Logger was initialized for module {__name__}')
 
