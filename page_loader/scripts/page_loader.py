@@ -29,8 +29,8 @@ def main():
             # """Simple program that greets NAME for a total of COUNT times."""
             # for x in range(count):
             #     click.echo(f"Hello {name}!")
-            print(download(path, o))
-            # click.echo('End programm')
+            click.echo(download(path, o))
+        #     click.echo('End programm')
 
         parse_with_click()
 
