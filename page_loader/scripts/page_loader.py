@@ -29,10 +29,11 @@ def main():
             # """Simple program that greets NAME for a total of COUNT times."""
             # for x in range(count):
             #     click.echo(f"Hello {name}!")
-            click.echo(download(path, o))
-        #     click.echo('End programm')
+            # click.echo(download(path, o))
+            #     click.echo('End programm')
+            return path, o
 
-        parse_with_click()
+        print(download(parse_with_click()))
 
     except requests.exceptions.HTTPError:
 
